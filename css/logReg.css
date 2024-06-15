@@ -1,0 +1,85 @@
+* {
+    margin: 0%;
+}
+
+body {
+    background-image: linear-gradient(155deg, #322EE7, #D61F88);
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+main {
+    background-color: white;
+    padding: 10%;
+    border-radius: 10px;
+    margin: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+button {
+    width: 200px;
+    height: 40px;
+    border: white;
+    color: white;
+   background-image: linear-gradient(155deg, #9025B0, #A224A6);
+    border-radius: 10px;
+}
+
+button:hover {
+    background-image: linear-gradient(to right, rgba(0, 0, 255, 0.753), rgb(117, 142, 196));
+}
+
+/* register page */
+
+.input_container {
+    position: relative;
+    margin-bottom: 20px;       
+    border: 1px solid #ccc;
+                   
+}
+
+.input_inside {
+    height: 65px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
+.input_container label {
+   
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    color: #aaa;
+    font-size: 16px;
+}
+
+.input_inside:focus {
+    border: 1px solid #ccc;
+} 
+
+.input_inside:focus + label,
+.input_inside.not-empty + label {
+    
+
+    top: 0;
+    left: 10px;
+    font-size: 12px;
+    transform: translateY(5%);
+    
+}
+
+
+
+
