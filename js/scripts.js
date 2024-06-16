@@ -1,11 +1,3 @@
-/*!
-* Start Bootstrap - Personal v1.0.1 (https://startbootstrap.com/template-overviews/personal)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-personal/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
-
 document.addEventListener('DOMContentLoaded', function () {
     var inputs = document.querySelectorAll('.input_inside');
 
@@ -53,23 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return users.some(user => user.username === username && user.password === password);
     }
 
-    // Elementos formulário página inicial
-    const btn_login = document.getElementById("btnLoginConfirm");
-    const btn_register = document.getElementById("btnRegisterConfirm");
-
-    // Event listener página inicial
-    if (btn_login) {
-        btn_login.addEventListener("click", () => {
-            window.location.href = "teste.html";
-        });
-    }
-
-    if (btn_register) {
-        btn_register.addEventListener("click", () => {
-            window.location.href = "teste.html";
-        });
-    }
-
     // Registrar
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
@@ -83,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             alert('Usuário cadastrado com sucesso!');
             registerForm.reset();
+            window.location.href = "login.html";
         });
     }
 
@@ -100,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.clear();
             } else if (checkUser(username, password)) {
                 alert('Login bem-sucedido!');
+                window.location.href = "perfil.html"; 
             } else {
                 alert('Nome de usuário ou senha incorretos!');
             }
