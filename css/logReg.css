@@ -9,7 +9,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
 }
 
 main {
@@ -22,7 +21,6 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
     gap: 30px;
 }
 

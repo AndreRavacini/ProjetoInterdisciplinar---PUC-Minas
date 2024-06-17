@@ -84,4 +84,65 @@ document.addEventListener('DOMContentLoaded', function () {
             loginForm.reset();
         });
     }
+    // Cadastro de links
+        const linkContainer = document.getElementById('linkContainer');
+        const addLinkButton = document.getElementById('addLinkButton');
+    
+        addLinkButton.addEventListener('click', function() {
+            // Cria um novo campo de entrada para o link
+            const newLinkInput = document.createElement('input');
+            newLinkInput.type = 'text';
+            newLinkInput.placeholder = 'Insira o link aqui';
+            newLinkInput.id = 'newLinkInput';
+    
+            // Cria um botão para salvar o link
+            const saveLinkButton = document.createElement('button');
+            saveLinkButton.innerText = 'Salvar Link';
+    
+            // Adiciona eventos ao botão de salvar
+            saveLinkButton.addEventListener('click', function() {
+                const linkValue = newLinkInput.value;
+                if (linkValue) {
+                    // Cria um novo item de link
+                    const linkItem = document.createElement('div');
+                    linkItem.className = 'linkItem';
+    
+                    // Obtém o domínio do link
+                    const url = new URL(linkValue);
+                    const faviconUrl = `${url.origin}/favicon.ico`;
+    
+                    // Cria o elemento de imagem para o favicon
+                    const logoImg = document.createElement('img');
+                    logoImg.src = faviconUrl;
+                    logoImg.alt = 'favicon';
+                    logoImg.width = 16;
+                    logoImg.height = 16;
+    
+                    const linkAnchor = document.createElement('a');
+                    linkAnchor.href = linkValue;
+                    linkAnchor.innerText = linkValue;
+    
+                    const trashSpan = document.createElement('span');
+                    trashSpan.innerText = 'lixeira';
+    
+                    // Adiciona os elementos ao item de link
+                    linkItem.appendChild(logoImg);
+                    linkItem.appendChild(linkAnchor);
+                    linkItem.appendChild(trashSpan);
+    
+                    // Adiciona o novo item ao contêiner de links
+                    linkContainer.insertBefore(linkItem, addLinkButton);
+    
+                    // Limpa o campo de entrada e remove os botões
+                    newLinkInput.remove();
+                    saveLinkButton.remove();
+                }
+            });
+    
+            // Adiciona os novos elementos ao DOM
+            linkContainer.insertBefore(newLinkInput, addLinkButton);
+            linkContainer.insertBefore(saveLinkButton, addLinkButton);
+        });
+    
+    
 });
