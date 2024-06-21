@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert("LocalStorage limpado");
                 localStorage.clear();
             } else if (checkUser(username, password)) {
+                localStorage.setItem('currentUser', username);
                 alert('Login bem-sucedido!');
                 window.location.href = "perfil.html"; 
             } else {
@@ -84,65 +85,96 @@ document.addEventListener('DOMContentLoaded', function () {
             loginForm.reset();
         });
     }
+
     // Cadastro de links
-        const linkContainer = document.getElementById('linkContainer');
-        const addLinkButton = document.getElementById('addLinkButton');
-    
+    const linkContainer = document.getElementById('linkContainer');
+    const addLinkButton = document.getElementById('addLinkButton');
+    const currentUser = localStorage.getItem('currentUser');
+
+    if (linkContainer && addLinkButton && currentUser) {
+        loadLinksForUser(currentUser);
+
         addLinkButton.addEventListener('click', function() {
-            // Cria um novo campo de entrada para o link
             const newLinkInput = document.createElement('input');
             newLinkInput.type = 'text';
             newLinkInput.placeholder = 'Insira o link aqui';
             newLinkInput.id = 'newLinkInput';
-    
-            // Cria um botão para salvar o link
+
             const saveLinkButton = document.createElement('button');
             saveLinkButton.innerText = 'Salvar Link';
-    
-            // Adiciona eventos ao botão de salvar
+
             saveLinkButton.addEventListener('click', function() {
                 const linkValue = newLinkInput.value;
                 if (linkValue) {
-                    // Cria um novo item de link
-                    const linkItem = document.createElement('div');
-                    linkItem.className = 'linkItem';
-    
-                    // Obtém o domínio do link
-                    const url = new URL(linkValue);
-                    const faviconUrl = `${url.origin}/favicon.ico`;
-    
-                    // Cria o elemento de imagem para o favicon
-                    const logoImg = document.createElement('img');
-                    logoImg.src = faviconUrl;
-                    logoImg.alt = 'favicon';
-                    logoImg.width = 16;
-                    logoImg.height = 16;
-    
-                    const linkAnchor = document.createElement('a');
-                    linkAnchor.href = linkValue;
-                    linkAnchor.innerText = linkValue;
-    
-                    const trashSpan = document.createElement('span');
-                    trashSpan.innerText = 'lixeira';
-    
-                    // Adiciona os elementos ao item de link
-                    linkItem.appendChild(logoImg);
-                    linkItem.appendChild(linkAnchor);
-                    linkItem.appendChild(trashSpan);
-    
-                    // Adiciona o novo item ao contêiner de links
+                    saveLinkForUser(currentUser, linkValue);
+
+                    const linkItem = createLinkItem(linkValue);
                     linkContainer.insertBefore(linkItem, addLinkButton);
-    
-                    // Limpa o campo de entrada e remove os botões
+
                     newLinkInput.remove();
                     saveLinkButton.remove();
                 }
             });
-    
-            // Adiciona os novos elementos ao DOM
+
             linkContainer.insertBefore(newLinkInput, addLinkButton);
             linkContainer.insertBefore(saveLinkButton, addLinkButton);
         });
-    
-    
+    } else if (linkContainer && addLinkButton) {
+        alert('Usuário não logado!');
+        window.location.href = 'login.html';
+    }
+
+    function saveLinkForUser(user, link) {
+        let links = JSON.parse(localStorage.getItem(user)) || [];
+        links.push(link);
+        localStorage.setItem(user, JSON.stringify(links));
+    }
+
+    function loadLinksForUser(user) {
+        const links = JSON.parse(localStorage.getItem(user)) || [];
+        linkContainer.innerHTML = '';
+        linkContainer.appendChild(addLinkButton);
+
+        links.forEach(linkValue => {
+            const linkItem = createLinkItem(linkValue);
+            linkContainer.insertBefore(linkItem, addLinkButton);
+        });
+    }
+
+    function createLinkItem(linkValue) {
+        const linkItem = document.createElement('div');
+        linkItem.className = 'linkItem';
+
+        const url = new URL(linkValue);
+        const faviconUrl = `${url.origin}/favicon.ico`;
+
+        const logoImg = document.createElement('img');
+        logoImg.src = faviconUrl;
+        logoImg.alt = 'favicon';
+        logoImg.width = 16;
+        logoImg.height = 16;
+
+        const linkAnchor = document.createElement('a');
+        linkAnchor.href = linkValue;
+        linkAnchor.innerText = linkValue;
+
+        const trashSpan = document.createElement('span');
+        trashSpan.innerText = '🗑️';
+        trashSpan.addEventListener('click', function() {
+            removeLinkForUser(currentUser, linkValue);
+            linkItem.remove();
+        });
+
+        linkItem.appendChild(logoImg);
+        linkItem.appendChild(linkAnchor);
+        linkItem.appendChild(trashSpan);
+
+        return linkItem;
+    }
+
+    function removeLinkForUser(user, link) {
+        let links = JSON.parse(localStorage.getItem(user)) || [];
+        links = links.filter(storedLink => storedLink !== link);
+        localStorage.setItem(user, JSON.stringify(links));
+    }
 });
