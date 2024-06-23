@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/logReg.css">
+</head>
+<body>
+    <main>
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div id="loginUserNameContainer" class="input_container">
+                <input type="text" class="input_inside" id="loginUserName" name="userName" required>
+                <label for="loginUserName">Nome de usuário</label>
+            </div>
+            <div id="loginUserPasswordContainer" class="input_container">
+                <input type="password" class="input_inside" id="loginUserPassword" name="userPassword" required>
+                <label for="loginUserPassword">Senha</label>
+            </div>
+            <button type="submit" id="btnLoginConfirm">Entrar</button>
+            <p>Não tem uma conta? <a href="register.html">Cadastrar</a></p>
+        </form>
+    </main>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
