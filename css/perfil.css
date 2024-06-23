@@ -22,6 +22,21 @@ main {
 
 }
 
+#usuarioPerfil {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10%;
+
+}
+
+#imgPerfil {
+    border-radius: 50%;
+}
+
 
 
 #linkContainer {
@@ -34,6 +49,10 @@ main {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    border: solid 1px black;
+    border-radius: 14px;
+    padding: 10px;
 }
 
 .linkItem span {
@@ -45,6 +64,31 @@ main {
 }
 
 #addLinkButton {
-    margin-top: 10px;
+    border-radius: 5px;
+    color: white;
+    border: solid 1px transparent;
+    background-color: rgb(54, 54, 190);
+    margin-top: 5px;
+    padding: 10px;
 }
+#addLinkButton:hover {
+    
+    border: solid 1px white;
+    background-color: rgba(54, 54, 190, 0.527);
+}
+
+#deleteLinkBtn{
+    border-radius: 2px;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    border: solid 0.5px transparent;
+}
+
+#deleteLinkBtn:hover{
+    
+    color: white;
+    border: solid 0.5px black;
+    background-color: rgba(255, 0, 0, 0.541);
+}
+
 

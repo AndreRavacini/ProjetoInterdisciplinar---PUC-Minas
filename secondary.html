@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/perfil.css">
+    <title>Página Secundária</title>
+    <style>
+        .linkItem {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="secondaryLinkContainer"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const user = urlParams.get('user');
+            const secondaryLinkContainer = document.getElementById('secondaryLinkContainer');
+
+            if (!user) {
+                alert('Usuário não especificado!');
+                return;
+            }
+
+            const links = JSON.parse(localStorage.getItem(user)) || [];
+
+            links.forEach(({ link, name }) => {
+                const linkItem = document.createElement('div');
+                linkItem.className = 'linkItem';
+
+                const url = new URL(link);
+                const faviconUrl = `${url.origin}/favicon.ico`;
+
+                const logoImg = document.createElement('img');
+                logoImg.src = faviconUrl;
+                logoImg.alt = 'favicon';
+                logoImg.width = 16;
+                logoImg.height = 16;
+
+                const linkAnchor = document.createElement('a');
+                linkAnchor.href = link;
+                linkAnchor.innerText = name;
+
+                linkItem.appendChild(logoImg);
+                linkItem.appendChild(linkAnchor);
+
+                secondaryLinkContainer.appendChild(linkItem);
+            });
+        });
+    </script>
+</body>
+</html>

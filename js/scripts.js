@@ -100,23 +100,31 @@ document.addEventListener('DOMContentLoaded', function () {
             newLinkInput.placeholder = 'Insira o link aqui';
             newLinkInput.id = 'newLinkInput';
 
+            const newNameInput = document.createElement('input');
+            newNameInput.type = 'text';
+            newNameInput.placeholder = 'Insira o nome do link aqui';
+            newNameInput.id = 'newNameInput';
+
             const saveLinkButton = document.createElement('button');
             saveLinkButton.innerText = 'Salvar Link';
 
             saveLinkButton.addEventListener('click', function() {
                 const linkValue = newLinkInput.value;
-                if (linkValue) {
-                    saveLinkForUser(currentUser, linkValue);
+                const nameValue = newNameInput.value;
+                if (linkValue && nameValue) {
+                    saveLinkForUser(currentUser, linkValue, nameValue);
 
-                    const linkItem = createLinkItem(linkValue);
+                    const linkItem = createLinkItem(linkValue, nameValue);
                     linkContainer.insertBefore(linkItem, addLinkButton);
 
                     newLinkInput.remove();
+                    newNameInput.remove();
                     saveLinkButton.remove();
                 }
             });
 
             linkContainer.insertBefore(newLinkInput, addLinkButton);
+            linkContainer.insertBefore(newNameInput, addLinkButton);
             linkContainer.insertBefore(saveLinkButton, addLinkButton);
         });
     } else if (linkContainer && addLinkButton) {
@@ -124,9 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'login.html';
     }
 
-    function saveLinkForUser(user, link) {
+    function saveLinkForUser(user, link, name) {
         let links = JSON.parse(localStorage.getItem(user)) || [];
-        links.push(link);
+        links.push({ link, name });
         localStorage.setItem(user, JSON.stringify(links));
     }
 
@@ -135,13 +143,13 @@ document.addEventListener('DOMContentLoaded', function () {
         linkContainer.innerHTML = '';
         linkContainer.appendChild(addLinkButton);
 
-        links.forEach(linkValue => {
-            const linkItem = createLinkItem(linkValue);
+        links.forEach(({ link, name }) => {
+            const linkItem = createLinkItem(link, name);
             linkContainer.insertBefore(linkItem, addLinkButton);
         });
     }
 
-    function createLinkItem(linkValue) {
+    function createLinkItem(linkValue, nameValue) {
         const linkItem = document.createElement('div');
         linkItem.className = 'linkItem';
 
@@ -156,10 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const linkAnchor = document.createElement('a');
         linkAnchor.href = linkValue;
-        linkAnchor.innerText = linkValue;
+        linkAnchor.innerText = nameValue;
 
         const trashSpan = document.createElement('span');
-        trashSpan.innerText = '🗑️';
+        trashSpan.innerHTML = '<button id="deleteLinkBtn"><img src="assets/trash.png" alt="E" width="18px" height="18px"></button>';
         trashSpan.addEventListener('click', function() {
             removeLinkForUser(currentUser, linkValue);
             linkItem.remove();
@@ -174,7 +182,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function removeLinkForUser(user, link) {
         let links = JSON.parse(localStorage.getItem(user)) || [];
-        links = links.filter(storedLink => storedLink !== link);
+        links = links.filter(storedLink => storedLink.link !== link);
         localStorage.setItem(user, JSON.stringify(links));
     }
+
+    // Atualiza o nome do perfil
+    const perfilNameHeader = document.querySelector("#userCurrentName");
+    if (perfilNameHeader) {
+        perfilNameHeader.innerHTML = `@${currentUser}`;
+    }
+
+    // Adicionar link para página secundária
+    const secondaryPageLink = document.createElement('a');
+    secondaryPageLink.href = `secondary.html?user=${currentUser}`;
+    secondaryPageLink.innerText = 'Ver links';
+    document.body.appendChild(secondaryPageLink);
 });
