@@ -61,6 +61,16 @@ main {
 
 .linkItem a {
     margin: 0 10px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.linkItem a:hover {
+    color: rebeccapurple;
+}
+
+.linkItem a:hover::after .linkItem {
+    background-color: rgb(11, 11, 153);
 }
 
 #addLinkButton {
@@ -82,7 +92,12 @@ main {
     border: none;
     background-color: rgb(255, 255, 255);
     border: solid 0.5px transparent;
+    border-radius: 10px;
 }
+
+
+
+
 
 #deleteLinkBtn:hover{
     
