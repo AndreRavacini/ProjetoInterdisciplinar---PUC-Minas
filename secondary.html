@@ -4,26 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/perfil.css">
-    <title>Página Secundária</title>
+    <title>Perfil</title>
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+        }
+        main {
+            background-color: white;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        #profileSection {
+            text-align: center;
+        }
+        #profilePicture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        #userName {
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+        #userBio {
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: #555;
+        }
         .linkItem {
             margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        .linkItem img {
+            width: 16px;
+            height: 16px;
+        }
+        .linkItem a {
+            text-decoration: none;
+            color: #000000;
+        }
+        .linkItem a:hover {
+            
+            color: blue;
+        }
+        
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        @media (max-width: 600px) {
+            main {
+                padding: 20px;
+            }
+            #userName {
+                font-size: 1.2em;
+            }
+            #userBio {
+                font-size: 0.9em;
+            }
+        }
+    
     </style>
 </head>
 <body>
-    <div id="secondaryLinkContainer"></div>
+    <main>
+        <div id="profileSection">
+            <img id="profilePicture" src="" alt="Foto do Perfil">
+            <h2 id="userName"></h2>
+            <p id="userBio"></p>
+        </div>
+        <div id="secondaryLinkContainer"></div>
+        
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const user = urlParams.get('user');
             const secondaryLinkContainer = document.getElementById('secondaryLinkContainer');
+            const profilePicture = document.getElementById('profilePicture');
+            const userName = document.getElementById('userName');
+            const userBio = document.getElementById('userBio');
+            const backButton = document.getElementById('backButton');
 
             if (!user) {
                 alert('Usuário não especificado!');
                 return;
             }
 
+            // Carregar foto do perfil, nome e bio do usuário
+            userName.textContent = `@${user}`;
+            profilePicture.src = 'assets/perfilImg.png'; // Atualize para a URL correta da imagem do perfil
+
+            const savedBio = localStorage.getItem(`bio_${user}`);
+            userBio.textContent = savedBio || 'Nenhuma bio disponível';
+
+            // Carregar links do usuário
             const links = JSON.parse(localStorage.getItem(user)) || [];
 
             links.forEach(({ link, name }) => {
@@ -47,6 +142,11 @@
                 linkItem.appendChild(linkAnchor);
 
                 secondaryLinkContainer.appendChild(linkItem);
+            });
+
+            // Botão de voltar
+            backButton.addEventListener('click', function () {
+                window.history.back();
             });
         });
     </script>
