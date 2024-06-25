@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             addUser(username, password);
 
-            alert('Usuário cadastrado com sucesso!');
             registerForm.reset();
             window.location.href = "login.html";
         });
@@ -197,4 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
     secondaryPageLink.href = `secondary.html?user=${currentUser}`;
     secondaryPageLink.innerText = 'Ver links';
     document.body.appendChild(secondaryPageLink);
+
+    
 });
