@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             addUser(username, password);
 
-            alert('Usuário cadastrado com sucesso!');
             registerForm.reset();
             window.location.href = "login.html";
         });
@@ -192,9 +191,31 @@ document.addEventListener('DOMContentLoaded', function () {
         perfilNameHeader.innerHTML = `@${currentUser}`;
     }
 
+    // Bio
+    const bioTextarea = document.getElementById('bioTextarea');
+    const saveBioButton = document.getElementById('saveBioButton');
+
+    if (bioTextarea && saveBioButton) {
+        // Carregar bio do localStorage
+        const savedBio = localStorage.getItem(`bio_${currentUser}`);
+        if (savedBio) {
+            bioTextarea.value = savedBio;
+        }
+
+        // Salvar bio no localStorage
+        saveBioButton.addEventListener('click', function () {
+            const bioText = bioTextarea.value;
+            localStorage.setItem(`bio_${currentUser}`, bioText);
+            alert('Bio salva com sucesso!');
+        });
+    }
+
     // Adicionar link para página secundária
     const secondaryPageLink = document.createElement('a');
     secondaryPageLink.href = `secondary.html?user=${currentUser}`;
-    secondaryPageLink.innerText = 'Ver links';
+    secondaryPageLink.innerText = 'Compartilhar perfil';
+    secondaryPageLink.id = 'btnSecondaryPage';
+    secondaryPageLink.target = '_blank'; 
     document.body.appendChild(secondaryPageLink);
+
 });
